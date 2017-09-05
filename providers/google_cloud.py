@@ -4,7 +4,7 @@ from google.cloud import language
 from google.cloud.language import enums, types
 
 from library.document import Tree, Document, Sentence
-from library.operations import find_generic_triples
+from library.operations import find_generic_triples_multi_criteria
 
 DEBUG = False
 POS_TAGS = {v: k for k, v in enums.PartOfSpeech.Tag.__dict__.items() if not k.startswith('_')}
@@ -105,19 +105,21 @@ def find_verb_triples(doc_or_sentence, active_voice=True, passive_voice=True):
     :rtype list of tuple
     """
     if active_voice:
-        gen = find_generic_triples(doc_or_sentence,
-                                   [enums.DependencyEdge.Label.NSUBJ],
-                                   [enums.PartOfSpeech.Tag.VERB],
-                                   [enums.DependencyEdge.Label.DOBJ, enums.DependencyEdge.Label.PREP])
+        gen = find_generic_triples_multi_criteria(
+            doc_or_sentence,
+            [enums.DependencyEdge.Label.NSUBJ],
+            [enums.PartOfSpeech.Tag.VERB],
+            [enums.DependencyEdge.Label.DOBJ, enums.DependencyEdge.Label.PREP])
 
         for value in gen:
             yield value
 
     if passive_voice:
-        gen = find_generic_triples(doc_or_sentence,
-                                   [enums.DependencyEdge.Label.NSUBJPASS],
-                                   [enums.PartOfSpeech.Tag.VERB],
-                                   [enums.DependencyEdge.Label.POBJ, enums.DependencyEdge.Label.PREP])
+        gen = find_generic_triples_multi_criteria(
+            doc_or_sentence,
+            [enums.DependencyEdge.Label.NSUBJPASS],
+            [enums.PartOfSpeech.Tag.VERB],
+            [enums.DependencyEdge.Label.POBJ, enums.DependencyEdge.Label.PREP])
 
         for value in gen:
             yield value
