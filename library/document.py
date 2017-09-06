@@ -24,6 +24,10 @@ class Tree(object):
         # list of children (dependent) tree nodes
         self.children = []
 
+        # mappings
+        self.pos_tag_mapping = None
+        self.label_mapping = None
+
     def walk(self):
         """
         Iterator which yields all children in the current tree. Order is not
@@ -67,12 +71,15 @@ class Tree(object):
         :return: Returns a string representation for the current tree node
         :rtype str
         """
+        pos_tag = self.pos_tag_mapping[self.pos_tag] if self.pos_tag_mapping else self.pos_tag
+        label = self.label_mapping[self.label] if self.label_mapping else self.label
+
         if verbose:
             return "Tree(index={},label='{}', content='{}', lemma='{}', pos_tag='{}', children=[{}])".format(
-                self.index, self.label, self.content, self.lemma, self.pos_tag,
+                self.index, label, self.content, self.lemma, pos_tag,
                 ','.join([str(t.index) for t in self.children]))
 
-        return "{} (pos_tag={}, label={})".format(self.content, self.pos_tag, self.label)
+        return "{} (pos_tag={}, label={})".format(self.content, pos_tag, label)
 
     def get_printable_tree(self, max_depth=None, verbose=True):
         """

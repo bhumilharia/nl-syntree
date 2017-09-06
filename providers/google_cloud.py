@@ -65,6 +65,8 @@ def _create_tree(token_index, all_tokens):
     tree.content = token.text.content
     tree.lemma = token.lemma
     tree.pos_tag = token.part_of_speech.tag
+    tree.pos_tag_mapping = POS_TAGS
+    tree.label_mapping = LABELS
     tree.children = [_create_tree(i, all_tokens) for i, t in enumerate(all_tokens)
                      if t.dependency_edge.label != enums.DependencyEdge.Label.ROOT
                      and t.dependency_edge.head_token_index == token_index]
