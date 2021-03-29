@@ -25,7 +25,7 @@ protobuf==3.4.0
 ptyprocess==0.5.2
 pyasn1==0.3.3
 pyasn1-modules==0.1.1
-Pygments==2.2.0
+Pygments==2.7.4
 python-dateutil==2.6.1
 pyzmq==16.0.2
 requests==2.18.4
